@@ -1,28 +1,41 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class BubbleSort {
-    public static void main(String[] args) {
-        int n = 300000;
-        int[] array = new int[n];
-        for (int i = 0; i < n; i++) {
-            array[i] = i;
-        }
-        sort(array);
-        System.out.println("Sortowanie zakończone");
-    }
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
+        final long numSteps = 5_000_000_000L;
+        final double step = 1.0 / (double) numSteps;
 
-    public static void sort(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] < arr[j + 1]) {
-                    swap(arr, j, j + 1);
+        ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
+        List<Future<Double>> futures = new ArrayList<>();
+
+        long chunk = numSteps / NUM_THREADS;
+
+        for (int i = 0; i < NUM_THREADS; i++) {
+            final long start = i * chunk;
+            final long end = (i + 1) * chunk;
+            futures.add(executor.submit(() -> {
+                double sum = 0.0;
+                for (long j = start; j < end; j++) {
+                    double x = (j + 0.5) * step;
+                    sum += 4.0 / (1.0 + x * x);
                 }
-            }
+                return sum * step;
+            }));
         }
-    }
 
-    private static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+        executor.shutdown();
+
+        double pi = 0.0;
+        for (Future<Double> future : futures) {
+            pi += future.get();
+        }
+        System.out.println(pi);
     }
 }
 
