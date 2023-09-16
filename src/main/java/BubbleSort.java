@@ -8,7 +8,7 @@ import java.util.concurrent.Future;
 public class BubbleSort {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
-        final long numSteps = 500000000000L;
+        final long numSteps = 5000000000L;
         final double step = 1.0 / (double) numSteps;
 
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
