@@ -13,7 +13,7 @@ public class BubbleSort {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
         System.out.println(sdf.format(new Date()));
         final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
-        final long numSteps = 10000000000L;
+        final long numSteps = 1000000000000L;
         final double step = 1.0 / (double) numSteps;
 
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
