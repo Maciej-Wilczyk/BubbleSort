@@ -11,9 +11,9 @@ import java.util.concurrent.Future;
 public class BubbleSort {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
-        System.out.println(sdf.format(new Date()));
+        //System.out.println(sdf.format(new Date()));
         final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
-        final long numSteps = 7000000000000L;
+        final long numSteps = 700000L;
         final double step = 1.0 / (double) numSteps;
 
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
@@ -41,7 +41,7 @@ public class BubbleSort {
             pi += future.get();
         }
         System.out.println(pi);
-        System.out.println(sdf.format(new Date()));
+      //  System.out.println(sdf.format(new Date()));
     }
 }
 
